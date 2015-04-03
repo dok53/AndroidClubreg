@@ -118,7 +118,8 @@ public class LoginActivity extends Activity {
 					i.putExtra(TAG_TEAM, team);
 					startActivity(i);
 				}	
-				if (j == managers.length()){
+				//////CHECK THIS ON PHONE
+				else if (counter > 0){
 					Toast.makeText(getApplicationContext(), "Wrong Credentials",Toast.LENGTH_SHORT).show();
 					attempts.setBackgroundColor(Color.RED);	
 					counter--;

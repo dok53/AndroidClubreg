@@ -9,7 +9,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
-
+	<!-- android:textColor="@android:color/holo_green_light"
+		android:background="@android:color/darker_gray" -->
     <TextView
         android:id="@+id/loginText"
         android:layout_width="match_parent"
