@@ -1,5 +1,7 @@
 package dok.clubreg;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +35,7 @@ public class LoginActivity extends Activity {
 	private Button login;
 	private String team;
 	int counter = 3;
-	
+
 
 	// Creating JSON Parser object
 	JSONParser jParser = new JSONParser();
@@ -65,7 +67,7 @@ public class LoginActivity extends Activity {
 		attempts = (TextView)findViewById(R.id.textView5);
 		attempts.setText(Integer.toString(counter));
 		login = (Button)findViewById(R.id.button1);
-		
+
 		managerList = new ArrayList<HashMap<String, String>>();
 		new LoadManagers().execute();
 		// Buttons
@@ -75,17 +77,40 @@ public class LoginActivity extends Activity {
 
 			@Override
 			public void onClick(View view) {
-				allowAccess();
+				try {
+					allowAccess();
+				} catch (NoSuchAlgorithmException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvalidKeySpecException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				printEncDecData();
 			}
 		});
 
 	}
-	
-	public void allowAccess(){
+	public void printEncDecData()
+	{
+		//Encrypt and Decrypt data
+		String passwordNormal = "derek";
+		try {
+			String passwordEnc = AES.encrypt(passwordNormal);
+			String passwordDec = AES.decrypt(passwordEnc);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void allowAccess() throws NoSuchAlgorithmException, InvalidKeySpecException{
 		for (int j = 0; j < managers.length(); j ++){
 			try {
+				String userPass = password.getText().toString();
+				String passHash = managers.getJSONObject(j).getString(TAG_PASSWORD);
 				if(username.getText().toString().equals(managers.getJSONObject(j).getString(TAG_USERNAME)) && 
-						password.getText().toString().equals(managers.getJSONObject(j).getString(TAG_PASSWORD))){
+						PasswordHash.validatePassword(userPass, passHash)){
 					team = managers.getJSONObject(j).getString(TAG_TEAM);
 					Toast.makeText(getApplicationContext(), "Redirecting...",Toast.LENGTH_SHORT).show();
 					// Launching main screen activity
@@ -119,7 +144,6 @@ public class LoginActivity extends Activity {
 			// Building Parameters
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
 			// getting JSON string from URL
-			System.out.println("IN" + " " + params);
 			JSONObject json = jParser.makeHttpRequest(urlManagers, "GET", params);
 			// Check your log cat for JSON response
 			//Log.d("All Managers: ", json.toString());
