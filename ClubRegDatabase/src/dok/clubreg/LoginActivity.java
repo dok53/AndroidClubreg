@@ -85,13 +85,16 @@ public class LoginActivity extends Activity {
 				} catch (InvalidKeySpecException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				printEncDecData();
+				//printEncDecData();
 			}
 		});
 
 	}
-	public void printEncDecData()
+	/*public void printEncDecData()
 	{
 		//Encrypt and Decrypt data
 		String passwordNormal = "derek";
@@ -102,14 +105,14 @@ public class LoginActivity extends Activity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+	}*/
 
-	public void allowAccess() throws NoSuchAlgorithmException, InvalidKeySpecException{
+	public void allowAccess() throws Exception{
 		for (int j = 0; j < managers.length(); j ++){
 			try {
 				String userPass = password.getText().toString();
 				String passHash = managers.getJSONObject(j).getString(TAG_PASSWORD);
-				if(username.getText().toString().equals(managers.getJSONObject(j).getString(TAG_USERNAME)) && 
+				if(username.getText().toString().equals(AES.decrypt(managers.getJSONObject(j).getString(TAG_USERNAME))) && 
 						PasswordHash.validatePassword(userPass, passHash)){
 					team = managers.getJSONObject(j).getString(TAG_TEAM);
 					Toast.makeText(getApplicationContext(), "Redirecting...",Toast.LENGTH_SHORT).show();

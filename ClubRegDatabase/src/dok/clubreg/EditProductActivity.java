@@ -134,7 +134,7 @@ public class EditProductActivity extends Activity {
                         // getting player details by making HTTP request
                         // Note that player details url will use GET request
                         JSONObject json = jsonParser.makeHttpRequest(url_player_details + "?", "GET", params);
- 
+                        
                         // check your log for json response
                         Log.d("Single Player Details", json.toString());
  
@@ -159,8 +159,8 @@ public class EditProductActivity extends Activity {
                             txtCleanSheets = (EditText) findViewById(R.id.inputCleanSheets);
                             
                             // display player data in EditText
-                            txtName.setText(player.getString(TAG_NAME));
-                            txtSurname.setText(player.getString(TAG_SURNAME));
+                            txtName.setText(AES.decrypt(player.getString((TAG_NAME))));
+                            txtSurname.setText(AES.decrypt(player.getString((TAG_SURNAME))));
                             txtSubsPaid.setText(player.getString(TAG_FEESPAID));
                             txtTrainingAttended.setText(player.getString(TAG_TRAININGATTENDED));
                             txtYellowCards.setText(player.getString(TAG_YELLOWCARDS));
@@ -174,7 +174,10 @@ public class EditProductActivity extends Activity {
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
-                    }
+                    } catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
                 }
             });
  
@@ -214,8 +217,15 @@ public class EditProductActivity extends Activity {
         protected String doInBackground(String... args) {
  
             // getting updated data from EditTexts
-            String name = txtName.getText().toString();
-            String surname = txtSurname.getText().toString();
+        	String name = null;
+        	String surname = null;
+			try {
+				name = AES.encrypt(txtName.getText().toString());
+				surname = AES.encrypt(txtSurname.getText().toString());
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
             String subs = txtSubsPaid.getText().toString();
             String trainingAttended = txtTrainingAttended.getText().toString();
             String yellows = txtYellowCards.getText().toString();

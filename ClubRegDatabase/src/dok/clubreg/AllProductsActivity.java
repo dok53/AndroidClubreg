@@ -165,8 +165,8 @@ public class AllProductsActivity extends ListActivity {
 						JSONObject c = players.getJSONObject(i);
 						// Storing each json item in variable
 						String id = c.getString(TAG_PLAYER_ID);
-						String fullName = (c.getString(TAG_NAME) + " " + c.getString(TAG_SURNAME));
-						//String name = (c.getString(TAG_NAME));
+						//Decrypt database entries for table 
+						String fullName = AES.decrypt(c.getString(TAG_NAME)) + " " + AES.decrypt(c.getString(TAG_SURNAME));
 						String fees = (c.getString(TAG_FEESPAID));// Gets the fees and other data from JSON object
 						
 						// creating new HashMap
@@ -190,6 +190,9 @@ public class AllProductsActivity extends ListActivity {
 					startActivity(i);
 				}
 			} catch (JSONException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
