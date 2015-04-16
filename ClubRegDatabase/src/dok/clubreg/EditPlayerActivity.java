@@ -19,7 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
  
-public class EditProductActivity extends Activity {
+public class EditPlayerActivity extends Activity {
  
     EditText txtName;
     EditText txtSurname;
@@ -109,7 +109,7 @@ public class EditProductActivity extends Activity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(EditProductActivity.this);
+            pDialog = new ProgressDialog(EditPlayerActivity.this);
             pDialog.setMessage("Loading player details. Please wait...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
@@ -204,7 +204,7 @@ public class EditProductActivity extends Activity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(EditProductActivity.this);
+            pDialog = new ProgressDialog(EditPlayerActivity.this);
             pDialog.setMessage("Saving player ...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);

@@ -12,7 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import dok.clubreg.R;
-import dok.clubreg.AllProductsActivity.LoadAllPlayers;
+import dok.clubreg.AllPlayersActivity.LoadAllPlayers;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -187,7 +187,7 @@ public class LoginActivity extends Activity {
 					// no managers found
 					// Launch Add New player Activity
 					Intent i = new Intent(getApplicationContext(),
-							NewProductActivity.class);
+							NewPlayersActivity.class);
 					// Closing all previous activities
 					i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(i);

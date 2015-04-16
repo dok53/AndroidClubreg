@@ -23,7 +23,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-public class AllProductsActivity extends ListActivity {
+public class AllPlayersActivity extends ListActivity {
 
 	// Progress Dialog
 	private ProgressDialog pDialog;
@@ -94,7 +94,7 @@ public class AllProductsActivity extends ListActivity {
 					}
 				}
 				// Starting new intent
-				Intent in = new Intent(getApplicationContext(), EditProductActivity.class);
+				Intent in = new Intent(getApplicationContext(), EditPlayerActivity.class);
 				// sending playerID to next activity
 				in.putExtra(TAG_PLAYER_ID, playerID);
 				in.putExtra(TAG_FEESPAID, feesPaid);
@@ -133,7 +133,7 @@ public class AllProductsActivity extends ListActivity {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			pDialog = new ProgressDialog(AllProductsActivity.this);
+			pDialog = new ProgressDialog(AllPlayersActivity.this);
 			pDialog.setMessage("Loading players. Please wait...");
 			pDialog.setIndeterminate(false);
 			pDialog.setCancelable(false);
@@ -184,7 +184,7 @@ public class AllProductsActivity extends ListActivity {
 					// no players found
 					// Launch Add New player Activity
 					Intent i = new Intent(getApplicationContext(),
-							NewProductActivity.class);
+							NewPlayersActivity.class);
 					// Closing all previous activities
 					i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(i);
@@ -212,7 +212,7 @@ public class AllProductsActivity extends ListActivity {
 					 * Updating parsed JSON data into ListView
 					 * */
 					ListAdapter adapter = new SimpleAdapter(
-							AllProductsActivity.this, playersList,
+							AllPlayersActivity.this, playersList,
 							R.layout.list_item, new String[] { TAG_PLAYER_ID,
 									TAG_SURNAME},
 									new int[] { R.id.pid, R.id.name });

@@ -18,7 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
  
-public class NewProductActivity extends Activity {
+public class NewPlayersActivity extends Activity {
  
     // Progress Dialog
     private ProgressDialog pDialog;
@@ -69,7 +69,7 @@ public class NewProductActivity extends Activity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(NewProductActivity.this);
+            pDialog = new ProgressDialog(NewPlayersActivity.this);
             pDialog.setMessage("Creating Player..");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
@@ -104,7 +104,7 @@ public class NewProductActivity extends Activity {
  
                 if (success == 1) {
                     // successfully created product
-                    Intent i = new Intent(getApplicationContext(), AllProductsActivity.class);
+                    Intent i = new Intent(getApplicationContext(), AllPlayersActivity.class);
                     startActivity(i);
  
                     // closing this screen

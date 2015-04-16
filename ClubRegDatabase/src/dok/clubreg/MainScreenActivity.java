@@ -36,7 +36,7 @@ public class MainScreenActivity extends Activity {
 			@Override
 			public void onClick(View view) {
 				// Launching All players Activity
-				Intent i = new Intent(getApplicationContext(), AllProductsActivity.class);
+				Intent i = new Intent(getApplicationContext(), AllPlayersActivity.class);
 				i.putExtra(TAG_TEAM, team);
 				startActivity(i);
 
