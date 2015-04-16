@@ -108,21 +108,28 @@ public class LoginActivity extends Activity {
 	}*/
 
 	public void allowAccess() throws Exception{
+		boolean found = false;
 		for (int j = 0; j < managers.length(); j ++){
 			try {
+				int noOfManagers = j;
+				System.out.println("NOOFMAN " + noOfManagers + " Length " + managers.length());
 				String userPass = password.getText().toString();
 				String passHash = managers.getJSONObject(j).getString(TAG_PASSWORD);
 				if(username.getText().toString().equals(AES.decrypt(managers.getJSONObject(j).getString(TAG_USERNAME))) && 
 						PasswordHash.validatePassword(userPass, passHash)){
+					found = true;
 					team = managers.getJSONObject(j).getString(TAG_TEAM);
 					Toast.makeText(getApplicationContext(), "Redirecting...",Toast.LENGTH_SHORT).show();
 					// Launching main screen activity
 					Intent i = new Intent(getApplicationContext(), MainScreenActivity.class);
 					i.putExtra(TAG_TEAM, team);
 					startActivity(i);
+					counter = 3;
+					attempts.setText(3);
+					attempts.setBackgroundColor(Color.BLACK);
 				}	
 				//////CHECK THIS ON PHONE
-				else if (counter > 0){
+				if (noOfManagers == managers.length() - 1 && !found){
 					Toast.makeText(getApplicationContext(), "Wrong Credentials",Toast.LENGTH_SHORT).show();
 					attempts.setBackgroundColor(Color.RED);	
 					counter--;

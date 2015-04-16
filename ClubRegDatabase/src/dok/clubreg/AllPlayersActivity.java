@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -66,7 +67,6 @@ public class AllPlayersActivity extends ListActivity {
 			team = extras.getString(TAG_TEAM);
 		}
 
-		//sendTeamToPHP();
 		// Loading products in Background Thread
 		new LoadAllPlayers().execute();
 
