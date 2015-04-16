@@ -12,15 +12,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import dok.clubreg.R;
-import dok.clubreg.AllPlayersActivity.LoadAllPlayers;
 import android.app.Activity;
-import android.app.ProgressDialog;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.SyncStateContract.Constants;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -58,41 +61,78 @@ public class LoginActivity extends Activity {
 	// products JSONArray
 	JSONArray managers = null;
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
-		username = (EditText)findViewById(R.id.inputUsername);
-		password = (EditText)findViewById(R.id.inputPassword);
-		attempts = (TextView)findViewById(R.id.textView5);
-		attempts.setText(Integer.toString(counter));
-		login = (Button)findViewById(R.id.button1);
+		if(isOnline()){
+			username = (EditText)findViewById(R.id.inputUsername);
+			password = (EditText)findViewById(R.id.inputPassword);
+			attempts = (TextView)findViewById(R.id.textView5);
+			attempts.setText(Integer.toString(counter));
+			login = (Button)findViewById(R.id.button1);
 
-		managerList = new ArrayList<HashMap<String, String>>();
-		new LoadManagers().execute();
-		// Buttons
-		login = (Button) findViewById(R.id.button1);
-		// view products click event
-		login.setOnClickListener(new View.OnClickListener() {
+			managerList = new ArrayList<HashMap<String, String>>();
+			new LoadManagers().execute();
+			// Buttons
+			login = (Button) findViewById(R.id.button1);
+			// view products click event
+			login.setOnClickListener(new View.OnClickListener() {
 
-			@Override
-			public void onClick(View view) {
-				try {
-					allowAccess();
-				} catch (NoSuchAlgorithmException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvalidKeySpecException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				@Override
+				public void onClick(View view) {
+					try {
+						allowAccess();
+					} catch (NoSuchAlgorithmException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InvalidKeySpecException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					//printEncDecData();
 				}
-				//printEncDecData();
-			}
-		});
+			});
 
+		}
+		if(!isOnline()){
+			attempts = (TextView)findViewById(R.id.textView5);
+			attempts.setText(Integer.toString(counter));
+			try {
+				AlertDialog alertDialog = new AlertDialog.Builder(getBaseContext()).create();
+
+				alertDialog.setTitle("Info");
+				alertDialog.setMessage("Internet not available, Cross check your internet connectivity and try again");
+				alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+				alertDialog.setButton3("OK", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						finish();
+
+					}
+				});
+
+				alertDialog.show();
+			}
+			catch(Exception e)
+			{
+				Log.d(Constants._COUNT, "Show Dialog: "+e.getMessage());
+			}
+		}
+
+	}
+	public boolean isOnline() {
+		ConnectivityManager conMgr = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+
+		if(netInfo == null || !netInfo.isConnected() || !netInfo.isAvailable()){
+			Toast.makeText(getBaseContext(), "No Internet connection!", Toast.LENGTH_LONG).show();
+			return false;
+		}
+		return true; 
 	}
 	/*public void printEncDecData()
 	{
@@ -124,9 +164,6 @@ public class LoginActivity extends Activity {
 					Intent i = new Intent(getApplicationContext(), MainScreenActivity.class);
 					i.putExtra(TAG_TEAM, team);
 					startActivity(i);
-					counter = 3;
-					attempts.setText(3);
-					attempts.setBackgroundColor(Color.BLACK);
 				}	
 				//////CHECK THIS ON PHONE
 				if (noOfManagers == managers.length() - 1 && !found){
