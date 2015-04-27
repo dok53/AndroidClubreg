@@ -15,10 +15,10 @@
     <TextView
         android:id="@+id/name"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="6dip"
+        android:layout_height="40dip"
+        android:paddingTop="15dip"
         android:paddingLeft="6dip"
-        android:textSize="17dip"
+        android:textSize="17sp"
         android:textStyle="bold" />
  
 </LinearLayout>
